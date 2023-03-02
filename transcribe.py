@@ -13,9 +13,6 @@ setting_command_history_display = mod.setting(
 hist_more = False
 history = []
 
-
-
-
 transcribing = 0 
 
 markdown_transcript = None
@@ -106,7 +103,7 @@ def convertMillis(millis):
 def create_subtitles_transcript(name):
     global subtitles_transcript
     this_dir = os.path.dirname(os.path.realpath(__file__))
-    file_path = os.path.join(this_dir, name + ".md")
+    file_path = os.path.join(this_dir, name + ".srt")
     subtitles_transcript = open(file_path,"a+") 
     print("SUUUUUBTITLES OPENNNN!!!")
 
@@ -522,7 +519,7 @@ class Actions:
             # actions.user.finish_transcribing()
 
 
-    def start_transcribing():
+    def start_transcribing(movie_title:str = "untitled"):
         """transcription currently begins, starting at zero"""
         global movie_begins_time
         global movie_begins_time_milliseconds
@@ -533,13 +530,14 @@ class Actions:
         global linked_markdown_transcript_name 
         global pause_begin_time_in_milliseconds   
         
+        title = actions.user.reformat_text(movie_title, "snake")
         word = actions.user.time_format("%Y-%m-%d---%H-%M-%S")
-        markdown_transcript_name = word + "-markdown"
-        subtitles_transcript_name = word + "-subtitles"
-        linked_markdown_transcript_name = word + "-linked"
-        movie_url = actions.clip.text()
+        markdown_transcript_name =  title + "-" + word + "-markdown"
+        subtitles_transcript_name = title + "-"+word + "-subtitles"
+        linked_markdown_transcript_name = title + "-"+word + "-linked"
+        movie_url = "REPLACE_WITH_REAL_URL"
         transcribing = 1
-        #time.time is in seconds since the epoch
+        #time.time is in seconds since theepoch
         current_time = time.time()
         movie_begins_time = time.gmtime(current_time)
         movie_begins_time_milliseconds = time.time()
